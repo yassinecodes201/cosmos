@@ -1,27 +1,22 @@
-# Next.js + Tailwind CSS Example
+# Cosmos — Yassine Yousfi's portfolio
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.2)](https://tailwindcss.com/blog/tailwindcss-v3-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+Next.js portfolio using the design and React components from [availability-check](https://github.com/yassinecodes201/availability-check): animated starfield, aurora hero, glass panels, project cards, experience timeline, and responsive navigation.
 
-## Deploy your own
+## Development
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+Use Node.js 24 (see .nvmrc).
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
+```sh
+npm ci
+npm run dev
 ```
 
-```bash
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-```
+Run `npm run typecheck` and `npm run build` to validate, then `npm start` to serve the production build.
 
-```bash
-pnpm create next-app --example with-tailwindcss with-tailwindcss-app
-```
+## Contact form
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+Copy .env.example to .env.local and configure EMAIL and PASSWORD with the Gmail account and app password used for delivery. The new form posts to the existing /api/contact endpoint and reports success only after the server accepts the message. Failed submissions retain their input.
+
+## Design integration
+
+The original TanStack entry point is adapted to Next.js Pages Router. Tailwind CSS 4 keeps the source design tokens and styling intact. Cosmos's local portrait and existing contact/social details replace source placeholders. Project thumbnails are bundled locally; projects without a published URL link to Contact.

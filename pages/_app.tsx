@@ -1,24 +1,12 @@
 import "../styles/globals.css";
-import React, { useEffect, useState } from "react";
 import type { AppProps } from "next/app";
-import { Montserrat } from "@next/font/google";
-import { ArrowsProvider } from "../contexts/ArrowsContext";
-import { PageProvider } from "../contexts/PageContext";
+import { Toaster } from "sonner";
 
-const mont = Montserrat({ weight: "900", subsets: ["latin"] });
-
-function MyApp({ Component, pageProps }: AppProps) {
-  const [isDesktop, setIsDesktop] = useState<boolean | null>();
-
+export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <main className={mont.className}>
-      <ArrowsProvider>
-        <PageProvider>
-          <Component {...pageProps} />
-        </PageProvider>
-      </ArrowsProvider>
-    </main>
+    <>
+      <Component {...pageProps} />
+      <Toaster theme="dark" position="bottom-right" />
+    </>
   );
 }
-
-export default MyApp;
