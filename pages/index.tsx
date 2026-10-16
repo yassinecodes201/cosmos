@@ -17,6 +17,13 @@ export default function Index() {
         <meta property="og:title" content="Yassine Yousfi — Full Stack Engineer" />
         <meta property="og:description" content="Full stack engineer turning complex problems into elegant, performant applications. Explore selected work and get in touch." />
         <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://raw.githubusercontent.com/yassinecodes201/cosmos/main/public/images/cosmos-thumbnail.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:alt" content="Yassine Yousfi — Full Stack Engineer. Cosmos portfolio." />
+        <meta name="twitter:image" content="https://raw.githubusercontent.com/yassinecodes201/cosmos/main/public/images/cosmos-thumbnail.png" />
+        <meta name="twitter:image:alt" content="Yassine Yousfi — Full Stack Engineer. Cosmos portfolio." />
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <Starfield />
