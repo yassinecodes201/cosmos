@@ -102,7 +102,7 @@ function ProjectCard({
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-20 -translate-x-full skew-x-[-18deg] bg-gradient-to-r from-transparent via-white/[0.07] to-transparent transition-transform duration-700 ease-out motion-safe:group-hover:translate-x-full motion-safe:group-focus-visible:translate-x-full motion-reduce:hidden"
-    >
+      />
       <div className="relative flex min-h-[220px] items-center justify-center overflow-hidden bg-gradient-to-br from-primary/20 via-secondary/40 to-card border-b border-primary/10">
         <div className="pointer-events-none absolute -left-16 -top-24 h-64 w-64 rounded-full border border-primary/20" />
         <div className="pointer-events-none absolute -right-16 -bottom-24 h-64 w-64 rounded-full border border-primary/20" />
