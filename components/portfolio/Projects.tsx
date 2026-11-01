@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import { Activity, ArrowUpRight, BarChart3, Code2, Route, Search } from "lucide-react";
 
 const projects = [
@@ -58,13 +58,15 @@ function ProjectCard({
   index: number;
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
+  const reducedMotion = useReducedMotion();
   const mx = useMotionValue(0.5);
   const my = useMotionValue(0.5);
-  const rx = useSpring(useTransform(my, [0, 1], [6, -6]), { stiffness: 150, damping: 18 });
-  const ry = useSpring(useTransform(mx, [0, 1], [-6, 6]), { stiffness: 150, damping: 18 });
+  const rx = useSpring(useTransform(my, [0, 1], [7, -7]), { stiffness: 140, damping: 20 });
+  const ry = useSpring(useTransform(mx, [0, 1], [-7, 7]), { stiffness: 140, damping: 20 });
   const ProjectIcon = project.icon;
 
-  const onMouseMove = (e: React.MouseEvent) => {
+  const onPointerMove = (e: React.PointerEvent<HTMLAnchorElement>) => {
+    if (reducedMotion || e.pointerType !== "mouse") return;
     const rect = ref.current?.getBoundingClientRect();
     if (!rect) return;
     mx.set((e.clientX - rect.left) / rect.width);
@@ -82,16 +84,26 @@ function ProjectCard({
       href={project.href}
       target={project.href.startsWith("https:") ? "_blank" : undefined}
       rel={project.href.startsWith("https:") ? "noopener noreferrer" : undefined}
-      onMouseMove={onMouseMove}
-      onMouseLeave={reset}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      onPointerMove={onPointerMove}
+      onPointerLeave={reset}
+      initial={reducedMotion ? false : { opacity: 0, y: 40 }}
+      whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+      whileHover={reducedMotion ? undefined : { y: -9, scale: 1.015 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: index * 0.12 }}
-      style={{ rotateX: rx, rotateY: ry, transformStyle: "preserve-3d" }}
-      className="group glass-panel relative flex flex-col overflow-hidden rounded-2xl transition-colors hover:border-primary/40"
+      style={{ rotateX: reducedMotion ? 0 : rx, rotateY: reducedMotion ? 0 : ry, transformStyle: "preserve-3d" }}
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card/90 shadow-lg shadow-black/20 transition-colors duration-300 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
     >
-      <div className="relative flex min-h-[220px] items-center justify-center overflow-hidden bg-gradient-to-br from-primary/20 via-secondary/40 to-card">
+      {/* A composited spotlight and light sweep give the cards depth without costly backdrop blur. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-20 bg-[radial-gradient(ellipse_at_50%_0%,rgba(99,222,231,0.16),transparent_65%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-20 -translate-x-full skew-x-[-18deg] bg-gradient-to-r from-transparent via-white/[0.07] to-transparent transition-transform duration-700 ease-out motion-safe:group-hover:translate-x-full motion-safe:group-focus-visible:translate-x-full motion-reduce:hidden"
+    >
+      <div className="relative flex min-h-[220px] items-center justify-center overflow-hidden bg-gradient-to-br from-primary/20 via-secondary/40 to-card border-b border-primary/10">
         <div className="pointer-events-none absolute -left-16 -top-24 h-64 w-64 rounded-full border border-primary/20" />
         <div className="pointer-events-none absolute -right-16 -bottom-24 h-64 w-64 rounded-full border border-primary/20" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-card/60 to-transparent" />
@@ -99,14 +111,14 @@ function ProjectCard({
           size={72}
           strokeWidth={1.2}
           aria-hidden="true"
-          className="relative z-10 text-primary transition-transform duration-700 group-hover:scale-110"
+          className="relative z-10 text-primary drop-shadow-[0_0_22px_rgba(99,222,231,0.2)] transition-transform duration-500 motion-safe:group-hover:-translate-y-1 motion-safe:group-hover:scale-110 motion-reduce:transition-none"
         />
         <span className="absolute bottom-5 left-6 z-10 text-[11px] font-semibold tracking-[0.18em] text-muted-foreground">
           {project.category}
         </span>
       </div>
 
-      <div className="flex flex-1 flex-col p-6">
+      <div className="relative z-10 flex flex-1 flex-col p-6">
         <div className="mb-3 flex items-center gap-2">
           <h3 className="font-display text-xl font-bold transition-colors group-hover:text-primary">
             {project.title}
@@ -114,7 +126,7 @@ function ProjectCard({
           <ArrowUpRight
             size={16}
             aria-hidden="true"
-            className="shrink-0 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100"
+            className="shrink-0 text-primary opacity-60 transition-all duration-300 motion-safe:group-hover:translate-x-0.5 group-hover:opacity-100 group-focus-visible:opacity-100"
           />
         </div>
         <p className="mb-5 flex-1 text-sm font-light leading-relaxed text-muted-foreground">
