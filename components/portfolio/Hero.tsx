@@ -1,21 +1,16 @@
 import { useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowDown, Github, Instagram, Linkedin, Mail } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 
 const profile = "/images/photo.svg";
 
 const socials = [
   {
     icon: Linkedin,
-    href: "https://www.linkedin.com/in/yassine-yousfi-568801ab/",
+    href: "https://www.linkedin.com/in/yassineyousfi1995?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
     label: "LinkedIn",
   },
   { icon: Github, href: "https://github.com/yassinecodes201", label: "GitHub" },
-  {
-    icon: Instagram,
-    href: "https://www.instagram.com/yassine19265/",
-    label: "Instagram",
-  },
   { icon: Mail, href: "mailto:yassine19265@gmail.com", label: "Email" },
 ];
 
