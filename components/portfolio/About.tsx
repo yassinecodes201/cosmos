@@ -25,17 +25,6 @@ export function About() {
   return (
     <section id="about" className="relative z-10 section-padding">
       <div className="mx-auto max-w-6xl">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7 }}
-          className="mb-20 text-center font-display text-3xl font-bold md:text-5xl lg:text-6xl"
-        >
-          Unleash the power of{" "}
-          <span className="text-gradient italic">software</span>
-        </motion.h2>
-
         <div className="grid gap-16 md:grid-cols-2 md:gap-24">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
