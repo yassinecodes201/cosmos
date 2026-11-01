@@ -1,33 +1,51 @@
 import { useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ExternalLink } from "lucide-react";
-const projectGrabit = "/images/projects/project-grabit.png";
-const projectServme = "/images/projects/project-servme.png";
-const projectChatapp = "/images/projects/project-chatapp.png";
+import { Activity, ArrowUpRight, BarChart3, Code2, Route, Search } from "lucide-react";
 
 const projects = [
   {
-    title: "Grabit",
+    title: "Cross-Asset Pricing Platform",
+    category: "FINTECH / PRICING",
     description:
-      "On-demand delivery platform that splits fees between nearby customers — making fast delivery affordable for everyone.",
-    tags: ["React", "Node.js", "Real-time"],
-    image: projectGrabit,
-    href: "https://objective-austin-3b2ce1.netlify.app/",
-  },
-  {
-    title: "Servme",
-    description:
-      "A marketplace connecting service providers with clients, streamlining discovery, booking, and communication.",
-    tags: ["Next.js", "Tailwind", "Full Stack"],
-    image: projectServme,
+      "Built production pricing microservices for equities, rates, FX and structured products, reducing valuation time by 30% for trading desks.",
+    tags: ["Java", "Spring Boot", "Python", "Kubernetes"],
+    icon: BarChart3,
     href: "#contact",
   },
   {
-    title: "ChatApp",
+    title: "ELK Observability Platform",
+    category: "PLATFORM / MONITORING",
     description:
-      "Real-time messaging application powered by WebSockets, enabling instant peer-to-peer conversations.",
-    tags: ["WebSockets", "React", "Node.js"],
-    image: projectChatapp,
+      "Built centralized logging, Kibana dashboards and automated pricing-error and SLA alerts across 10+ microservices, reducing incident detection time by 40%.",
+    tags: ["Elasticsearch", "Logstash", "Kibana", "Microservices"],
+    icon: Activity,
+    href: "#contact",
+  },
+  {
+    title: "Trader Pricing IDE",
+    category: "FINTECH / DEVELOPER TOOLS",
+    description:
+      "Improved an internal pricing IDE used by traders and quants, eliminating manual configuration steps in simulations and product-structuring workflows.",
+    tags: ["Java", "Pricing", "Developer Tools"],
+    icon: Code2,
+    href: "#contact",
+  },
+  {
+    title: "Real-Time Logistics Platform",
+    category: "FULL STACK / LOGISTICS",
+    description:
+      "Delivered live order tracking, geolocation, route management and WebSocket notifications for a real-time logistics workflow.",
+    tags: ["React", "Node.js", "Socket.io", "Mapbox"],
+    icon: Route,
+    href: "#contact",
+  },
+  {
+    title: "U.S. Salary Comparison Platform",
+    category: "FULL STACK / ANALYTICS",
+    description:
+      "Built intelligent salary search with GeoDB autocomplete, analytics dashboards and optimized filtering for comparing salaries across the U.S.",
+    tags: ["Next.js", "TypeScript", "PostgreSQL", "GeoDB"],
+    icon: Search,
     href: "#contact",
   },
 ];
@@ -44,6 +62,7 @@ function ProjectCard({
   const my = useMotionValue(0.5);
   const rx = useSpring(useTransform(my, [0, 1], [6, -6]), { stiffness: 150, damping: 18 });
   const ry = useSpring(useTransform(mx, [0, 1], [-6, 6]), { stiffness: 150, damping: 18 });
+  const ProjectIcon = project.icon;
 
   const onMouseMove = (e: React.MouseEvent) => {
     const rect = ref.current?.getBoundingClientRect();
@@ -62,7 +81,7 @@ function ProjectCard({
       ref={ref}
       href={project.href}
       target={project.href.startsWith("https:") ? "_blank" : undefined}
-      rel="noopener noreferrer"
+      rel={project.href.startsWith("https:") ? "noopener noreferrer" : undefined}
       onMouseMove={onMouseMove}
       onMouseLeave={reset}
       initial={{ opacity: 0, y: 40 }}
@@ -72,13 +91,19 @@ function ProjectCard({
       style={{ rotateX: rx, rotateY: ry, transformStyle: "preserve-3d" }}
       className="group glass-panel relative flex flex-col overflow-hidden rounded-2xl transition-colors hover:border-primary/40"
     >
-      <div className="relative min-h-[220px] overflow-hidden">
-        <img
-          src={project.image}
-          alt={project.title}
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+      <div className="relative flex min-h-[220px] items-center justify-center overflow-hidden bg-gradient-to-br from-primary/20 via-secondary/40 to-card">
+        <div className="pointer-events-none absolute -left-16 -top-24 h-64 w-64 rounded-full border border-primary/20" />
+        <div className="pointer-events-none absolute -right-16 -bottom-24 h-64 w-64 rounded-full border border-primary/20" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-card/60 to-transparent" />
+        <ProjectIcon
+          size={72}
+          strokeWidth={1.2}
+          aria-hidden="true"
+          className="relative z-10 text-primary transition-transform duration-700 group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-60" />
+        <span className="absolute bottom-5 left-6 z-10 text-[11px] font-semibold tracking-[0.18em] text-muted-foreground">
+          {project.category}
+        </span>
       </div>
 
       <div className="flex flex-1 flex-col p-6">
@@ -86,9 +111,10 @@ function ProjectCard({
           <h3 className="font-display text-xl font-bold transition-colors group-hover:text-primary">
             {project.title}
           </h3>
-          <ExternalLink
+          <ArrowUpRight
             size={16}
-            className="text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100"
+            aria-hidden="true"
+            className="shrink-0 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100"
           />
         </div>
         <p className="mb-5 flex-1 text-sm font-light leading-relaxed text-muted-foreground">
@@ -128,7 +154,7 @@ export function Projects() {
           </h2>
         </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-3" style={{ perspective: "1200px" }}>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" style={{ perspective: "1200px" }}>
           {projects.map((p, i) => (
             <ProjectCard key={p.title} project={p} index={i} />
           ))}
