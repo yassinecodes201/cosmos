@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const links = [
@@ -20,17 +19,25 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
   return (
-    <motion.header
-      initial={{ y: -60, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled ? "glass-panel border-b" : "bg-transparent"
+    <header
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-150 ${
+        scrolled || open
+          ? "border-border bg-card/95 shadow-lg"
+          : "border-transparent bg-transparent"
       }`}
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="#top" className="font-display text-lg font-bold tracking-tight">
+        <a href="#top" onClick={() => setOpen(false)} className="font-display text-lg font-bold tracking-tight">
           <span className="text-gradient">YY</span>
           <span className="text-muted-foreground">.</span>
         </a>
@@ -54,35 +61,36 @@ export function Navbar() {
         </div>
 
         <button
-          className="text-foreground md:hidden"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
+          type="button"
+          className="flex h-11 w-11 touch-manipulation items-center justify-center rounded-lg text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary md:hidden"
+          onClick={() => setOpen((current) => !current)}
+          aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           aria-controls="mobile-navigation"
         >
-          {open ? <X size={22} /> : <Menu size={22} />}
+          {open ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
         </button>
       </nav>
 
       {open && (
-        <motion.div
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
+        <div
           id="mobile-navigation"
-          className="glass-panel border-t px-6 py-4 md:hidden"
+          className="absolute inset-x-0 top-full border-t border-border bg-card shadow-lg md:hidden"
         >
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="block py-2 text-sm text-muted-foreground hover:text-primary"
-            >
-              {l.label}
-            </a>
-          ))}
-        </motion.div>
+          <div className="mx-auto max-w-6xl px-6 py-4">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="block rounded-md py-3 text-sm text-muted-foreground transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-primary"
+              >
+                {l.label}
+              </a>
+            ))}
+          </div>
+        </div>
       )}
-    </motion.header>
+    </header>
   );
 }
