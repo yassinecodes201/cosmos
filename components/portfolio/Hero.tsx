@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowDown, Download, Github, Linkedin, Mail } from "lucide-react";
 
 const profile = "/images/photo.svg";
 
@@ -108,6 +108,14 @@ export function Hero() {
               className="glow-primary rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-105"
             >
               View my work
+            </a>
+            <a
+              href="/Yassine_Yousfi_CV.pdf"
+              download="Yassine_Yousfi_CV.pdf"
+              className="inline-flex items-center gap-2 rounded-full border border-primary/50 px-6 py-3 text-sm font-semibold text-foreground transition-colors hover:border-primary hover:bg-primary/10 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+            >
+              <Download size={18} aria-hidden="true" />
+              Download résumé
             </a>
             <div className="flex items-center gap-5">
               {socials.map(({ icon: Icon, href, label }) => (

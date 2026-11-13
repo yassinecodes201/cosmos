@@ -12,6 +12,15 @@ module.exports = {
   async headers() {
     return [
       {
+        source: "/Yassine_Yousfi_CV.pdf",
+        headers: [
+          {
+            key: "Content-Disposition",
+            value: 'attachment; filename="Yassine_Yousfi_CV.pdf"',
+          },
+        ],
+      },
+      {
         source: "/api/:path*",
         headers: [
           { key: "Access-Control-Allow-Credentials", value: "true" },
